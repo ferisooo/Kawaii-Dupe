@@ -1,4 +1,8 @@
-# DupeNova ✦ duplicate purifier
+<p align="center">
+  <img src="build/icon.png" alt="DupeNova icon" width="180" height="180" />
+</p>
+
+<h1 align="center">DupeNova ✦ duplicate purifier</h1>
 
 **DupeNova finds files that are exact copies of each other and clears out the spare
 copies for you — so you get your storage space back without losing anything.**
