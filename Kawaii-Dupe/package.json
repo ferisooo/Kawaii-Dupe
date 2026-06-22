@@ -1,0 +1,42 @@
+{
+  "name": "dupenova",
+  "version": "1.0.0",
+  "description": "DupeNova - a glowing neon desktop app that finds and purges duplicate files from a folder.",
+  "main": "main.js",
+  "author": "ferisooo (White Cat Feris)",
+  "license": "MIT",
+  "scripts": {
+    "build": "esbuild renderer/app.jsx --outfile=renderer/app.js --loader:.jsx=jsx --jsx-factory=React.createElement --jsx-fragment=React.Fragment --log-level=info",
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "31.7.7",
+    "esbuild": "0.23.1"
+  },
+  "build": {
+    "appId": "com.ferisooo.dupenova",
+    "productName": "DupeNova",
+    "asar": false,
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "build/icon.ico"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "DupeNova"
+    }
+  }
+}

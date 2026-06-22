@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self';" />
+  <title>DupeNova</title>
+
+  <!-- Google Fonts: enhances the look online; the CSS stack falls back to
+       system fonts when offline, so the UI always renders. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- z0: living background -->
+  <div class="aurora" aria-hidden="true">
+    <span class="blob blob-a"></span>
+    <span class="blob blob-b"></span>
+    <span class="blob blob-c"></span>
+    <div class="grid-veil"></div>
+    <div class="scanline"></div>
+  </div>
+
+  <!-- z10: react app content mounts here -->
+  <div id="root"></div>
+
+  <!-- z80: drifting particles (above content, click-through) -->
+  <canvas id="particles" aria-hidden="true"></canvas>
+  <!-- z90: cursor trail (above content, click-through) -->
+  <canvas id="trail" aria-hidden="true"></canvas>
+  <!-- z95: click ripples (above content, click-through) -->
+  <div id="ripples" aria-hidden="true"></div>
+
+  <!-- Local vendored React (no CDN, works offline) -->
+  <script src="vendor/react.production.min.js"></script>
+  <script src="vendor/react-dom.production.min.js"></script>
+  <!-- Pre-compiled UI (built from app.jsx by esbuild) -->
+  <script src="app.js"></script>
+  <!-- Cosmetic engine: particles, trail, ripples -->
+  <script src="fx.js"></script>
+</body>
+</html>
