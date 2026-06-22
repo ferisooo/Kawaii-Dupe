@@ -206,6 +206,14 @@ Made with care for **White Cat Feris** 🐾 — her idea, Claude's hands.
 
 ---
 
-## License
+## License, Terms & Privacy
 
-MIT — see the [`LICENSE`](LICENSE) file.
+- **License:** MIT — see the [`LICENSE`](LICENSE) file.
+- **Terms of Service:** see [`TERMS.md`](TERMS.md). In short: **you may freely use,
+  fork, modify, and distribute DupeNova — as long as you credit White Cat Feris's idea
+  and Claude's work.** The App is provided "as is" with no warranty, and you are
+  responsible for your own files and backups.
+- **Privacy Policy:** see [`PRIVACY.md`](PRIVACY.md). In short: **DupeNova collects
+  nothing.** No accounts, no analytics, no tracking; your files never leave your
+  computer. The only optional internet use is loading decorative Google Fonts when
+  you're online (it falls back to system fonts offline).
