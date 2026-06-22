@@ -5,31 +5,145 @@ duplicate files** in a folder (and all its subfolders) and sends the extra copie
 the Windows Recycle Bin. Neon aurora theme — glowing text, drifting particles, a
 cursor trail, click ripples, and staggered entrance animations throughout. No mascots.
 
----
-
-## Run it
-
-1. Extract the zip anywhere.
-2. Launch it:
-   - **`DupeNova.vbs`** → runs with **no console window** (recommended for everyday use).
-   - **`start.bat`** → same thing but shows a console, handy for troubleshooting.
-   - First launch installs dependencies and builds the UI automatically, and self-heals
-     the Electron binary if the download breaks. With the silent launcher, a one-time
-     "setting up…" notice appears; the app window opens when it's ready. Output is written
-     to `launch.log`, and a popup appears only if something fails.
-3. The window opens. Choose a folder → **Scan for duplicates** → review → **Purge**.
-
-> Requires **Node.js** (LTS) installed on the PC: https://nodejs.org
-> Deleted files go to the **Recycle Bin**, so nothing is lost permanently.
-
-## Build a Windows installer (optional)
-
-Double-click **`build-exe.bat`**. It installs `electron-builder` on demand and outputs
-an NSIS installer into the `dist` folder.
+> **In one sentence:** point it at a folder, it finds the real duplicates, and it
+> moves the spare copies to the Recycle Bin so you can reclaim space without losing
+> anything.
 
 ---
 
-## How duplicate detection works
+## ✨ Features
+
+- **Finds *true* duplicates, not lookalikes.** Files are compared by their actual
+  contents (streamed SHA-256 hashing), so two files only count as duplicates if they
+  are byte-for-byte identical — even if their names are different. A file named
+  `holiday.jpg` and a copy named `holiday (1).jpg` are correctly matched; two
+  *different* photos that happen to share a name are not.
+- **Scans every subfolder automatically.** Pick one folder and it walks the entire
+  tree underneath it.
+- **Fast by design.** It first groups files by size and only hashes files that share
+  an exact size — anything with a unique size can't possibly be a duplicate, so it's
+  skipped. Large files are streamed, so even big folders don't eat your memory.
+- **Nothing is deleted permanently.** Purged copies go to the **Recycle Bin** via the
+  operating system, so you can always restore them.
+- **You stay in control of what's kept.** In each duplicate set the oldest file is
+  kept by default; you can flip Keep/Purge on any individual file, or use
+  **Keep newest in each** / **Keep oldest in each** to decide in bulk. A set can never
+  end up with zero files kept.
+- **Clear, honest stats.** See how many files were scanned, how many duplicate sets
+  exist, how many extra copies there are, and exactly how much space you'll reclaim
+  *before* you commit.
+- **Double-click to reveal.** Double-click any file in the list to open it in Explorer
+  and confirm it for yourself.
+- **Beautiful neon aurora UI.** Animated background blobs, glowing type, a particle
+  field, a cursor trail, and click ripples — with full **reduced-motion** support for
+  anyone who prefers calmer visuals.
+- **Works fully offline.** React is bundled locally; no internet connection is needed
+  to run the app or render the interface.
+- **Self-healing launcher.** The first launch installs everything and repairs the
+  Electron binary automatically if the download breaks, in four escalating steps.
+
+---
+
+## 🆚 How DupeNova is different from other duplicate finders
+
+- **Content-based, never name-based.** Many cleanup tools match on file name, size, or
+  a "fuzzy" guess. DupeNova hashes the actual bytes, so its matches are exact — no
+  false positives, no accidentally deleting a file that just *looked* similar.
+- **Recycle Bin, not the void.** It never hard-deletes. Every removed copy is
+  recoverable from the Recycle Bin, so a mistake is never permanent.
+- **No accounts, no telemetry, no cloud.** It doesn't phone home, upload your file
+  list, or require a login. Everything happens locally on your machine.
+- **Readable and inspectable.** The whole app is a handful of small, plain files you
+  can open and read (see the "is this safe?" section below). It's MIT-licensed and the
+  source isn't obfuscated or minified beyond the bundled React library.
+- **It's genuinely nice to use.** Most dedupe utilities look like spreadsheets from
+  2003. This one is a calm, glowing aurora — without sacrificing safety or accuracy.
+
+---
+
+## 🚀 Setting it up (no coding experience needed)
+
+You don't need to know anything about code. Just follow these steps in order.
+
+### Step 1 — Install Node.js (one time only)
+
+DupeNova needs a free helper called **Node.js** to run.
+
+1. Go to **https://nodejs.org**
+2. Click the big button that says **LTS** (it's the recommended version).
+3. Open the file you downloaded and click **Next → Next → Install** like any normal
+   program. You don't need to change any settings.
+
+You only ever have to do this once.
+
+### Step 2 — Unzip DupeNova
+
+Extract the DupeNova zip file anywhere you like — your Desktop is fine. You should end
+up with a folder containing files like `DupeNova.vbs`, `start.bat`, and `README.md`.
+
+### Step 3 — Launch it
+
+Double-click one of these:
+
+- **`DupeNova.vbs`** — the everyday way. Runs with **no black console window**.
+- **`start.bat`** — does the same thing but shows a console window, which is handy if
+  something goes wrong and you want to see the details.
+
+> **The very first launch takes a minute.** It quietly downloads and sets itself up.
+> With `DupeNova.vbs` you'll see a small "Setting up DupeNova for the first time…"
+> message; the app window opens by itself when it's ready. Every launch after that is
+> fast. (If anything fails, details are saved to a `launch.log` file next to the app.)
+
+### Step 4 — Use it
+
+1. Click **Choose folder** and pick the folder you want to clean up.
+2. Click **Scan for duplicates** and wait for it to finish.
+3. Review the duplicate sets. Adjust Keep/Purge if you want, or use the bulk buttons.
+4. Click **Purge → Recycle Bin**. Done! The extra copies are now in your Recycle Bin,
+   and you can restore them anytime if you change your mind.
+
+### (Optional) Make a proper Windows installer
+
+If you'd rather install DupeNova like a normal app with a Start-menu shortcut,
+double-click **`build-exe.bat`**. It builds a standard Windows installer into a `dist`
+folder.
+
+---
+
+## 🛡️ "Is this safe? How do I know it's not a virus?"
+
+Totally fair question — you should never run something you can't verify. The good news:
+**DupeNova is small, open, and readable.** You don't have to trust anyone's word for
+it; you can open the files yourself in Notepad (or any text editor) and see exactly
+what it does. Here's what to read, in order of importance:
+
+| Read this file | Why it matters / what to look for |
+|----------------|-----------------------------------|
+| **`main.js`** | ⭐ **The most important one.** This is the only file that touches your files. You can see it does exactly three things: **lists** files in the folder you chose, **reads** them to compare contents, and **moves** copies to the Recycle Bin using the operating system's own "trash" function (`shell.trashItem`). There is **no permanent deletion** and **no network upload** anywhere in it. |
+| **`preload.js`** | Tiny file listing the *only* actions the app's interface is allowed to ask for: pick a folder, scan, move-to-Recycle-Bin, reveal in Explorer, and basic window buttons. Nothing else is possible. |
+| **`start.bat`** | The launcher. You can read every command it runs: it checks for Node.js, installs the app's dependencies, repairs Electron if its download broke, and starts the app. All of it is plain, commented text. |
+| **`DupeNova.vbs`** | The silent launcher. All it does is run `start.bat` without a console window and write a `launch.log`. |
+| **`package.json`** | Lists exactly which two building blocks it uses (`electron` and `esbuild`) and nothing sneaky. No hidden install scripts pulling random code. |
+
+**Extra reassurances:**
+
+- **It only sends files to the Recycle Bin, never permanent deletion.** Anything it
+  removes can be restored.
+- **It doesn't connect to the internet to do its job.** The interface library (React)
+  is bundled in the `renderer/vendor` folder; no data about your files ever leaves your
+  computer.
+- **It's MIT-licensed open source** — see the `LICENSE` file.
+- If you're still unsure, you can run a virus scan on the folder, or test the app on a
+  throwaway folder of duplicate files first and watch it work before trusting it with
+  anything important.
+
+> Note: because this is an unsigned community app, Windows SmartScreen may show a "are
+> you sure?" prompt the first time. That's normal for indie software and not a sign of
+> a virus — but reading the files above is the real way to be sure.
+
+---
+
+## How duplicate detection works (the technical version)
 
 1. Walks the chosen folder recursively and records every file's size.
 2. Only files that share an exact size can possibly be duplicates — those get hashed
@@ -77,4 +191,21 @@ an NSIS installer into the `dist` folder.
   content so menus render on top; the particle and cursor-trail canvases sit above content
   (click-through) so the cosmetics stay visible even on a full screen.
 
-Made for **White Cat Feris** 🐾
+---
+
+## Credits
+
+- **Idea, concept & direction:** **White Cat Feris** (`ferisooo`). DupeNova was Feris's
+  idea — the goal of a safe, content-accurate, genuinely *pretty* duplicate purifier is
+  hers. 🐾
+- **Implementation:** built by **Claude** (Anthropic), turning Feris's idea into the
+  working Electron app, the neon aurora interface, the self-healing launcher, and this
+  documentation.
+
+Made with care for **White Cat Feris** 🐾 — her idea, Claude's hands.
+
+---
+
+## License
+
+MIT — see the [`LICENSE`](LICENSE) file.
